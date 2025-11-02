@@ -1,4 +1,5 @@
 val kotlin_version: String by project
+val ktor_version: String by project
 val logback_version: String by project
 val ktor_graphql_version: String by project
 
@@ -25,12 +26,15 @@ application {
 }
 
 dependencies {
+    implementation("io.ktor:ktor-server-core:$ktor_version")
     implementation("io.ktor:ktor-server-default-headers")
-    implementation("io.ktor:ktor-server-core")
     implementation("io.ktor:ktor-server-content-negotiation")
     implementation("io.ktor:ktor-server-cors")
     implementation("io.ktor:ktor-serialization-jackson")
     implementation("io.ktor:ktor-server-netty")
+    implementation("io.ktor:ktor-client-okhttp")
+    implementation("io.ktor:ktor-client-content-negotiation")
+    implementation("io.ktor:ktor-serialization-jackson")
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("io.ktor:ktor-server-config-yaml")
     implementation("com.expediagroup:graphql-kotlin-ktor-server:$ktor_graphql_version")
