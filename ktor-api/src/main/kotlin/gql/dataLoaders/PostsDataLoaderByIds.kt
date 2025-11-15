@@ -5,7 +5,6 @@ import com.eventslooped.gql.models.Post
 import com.expediagroup.graphql.dataloader.KotlinDataLoader
 import com.expediagroup.graphql.generator.extensions.get
 import graphql.GraphQLContext
-import graphql.schema.AsyncDataFetcher.async
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -14,11 +13,11 @@ import org.dataloader.DataLoader
 import org.dataloader.DataLoaderFactory
 import kotlin.coroutines.EmptyCoroutineContext
 
-val PostDataLoader = object : KotlinDataLoader<Int, Post?> {
+val PostsDataLoaderByIds = object : KotlinDataLoader<Int, Post?> {
     override val dataLoaderName = "POST_LOADER_BY_IDS"
 
     override fun getDataLoader(graphQLContext: GraphQLContext): DataLoader<Int, Post?> {
-        val postsClient = PostsClient()
+        val postsClient = PostsClient() // Can call service here instead, but for simplicity lets use Client directly
 
         return DataLoaderFactory.newDataLoader { ids, batchLoaderEnvironment ->
             val coroutineScope = batchLoaderEnvironment.getContext<GraphQLContext>()?.get<CoroutineScope>()
