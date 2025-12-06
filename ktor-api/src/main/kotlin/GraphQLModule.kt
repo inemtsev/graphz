@@ -1,6 +1,8 @@
 package com.eventslooped
 
+import com.eventslooped.gql.queries.CommentsQuery
 import com.eventslooped.gql.queries.HelloWorldQuery
+import com.eventslooped.gql.queries.PostsQuery
 import com.eventslooped.gql.routes.graphQLGetModule
 import com.expediagroup.graphql.server.ktor.GraphQL
 import com.expediagroup.graphql.server.ktor.defaultGraphQLStatusPages
@@ -16,8 +18,8 @@ fun Application.configureGraphQLModule() {
             packages = listOf("com.eventslooped.gql.schema")
             queries = listOf(
                 HelloWorldQuery(),
-                PostService(),
-                CommentService()
+                CommentsQuery(),
+                PostsQuery()
             )
         }
     }
