@@ -10,7 +10,7 @@ import io.ktor.server.plugins.cors.routing.CORS
 import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.routing.routing
 
-fun Application.graphQLModule() {
+fun Application.configureGraphQLModule() {
     install(GraphQL) {
         schema {
             packages = listOf("com.eventslooped.gql.schema")
