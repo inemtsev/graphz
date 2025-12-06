@@ -15,10 +15,9 @@ import kotlin.coroutines.EmptyCoroutineContext
 
 val PostsDataLoaderByUserId = object : KotlinDataLoader<Int, List<Post?>> {
     override val dataLoaderName = "POST_LOADER_BY_USER_ID"
+    val postsClient = PostsClient()
 
     override fun getDataLoader(graphQLContext: GraphQLContext): DataLoader<Int, List<Post?>> {
-        val postsClient = PostsClient()
-
         return DataLoaderFactory.newDataLoader { userIds, batchDataLoaderEnvironment ->
             val coroutineScope = batchDataLoaderEnvironment.getContext<GraphQLContext>()?.get<CoroutineScope>()
                 ?: CoroutineScope(EmptyCoroutineContext)

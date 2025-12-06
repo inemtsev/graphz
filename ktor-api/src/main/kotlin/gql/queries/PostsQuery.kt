@@ -8,15 +8,15 @@ import graphql.schema.DataFetchingEnvironment
 import java.util.concurrent.CompletableFuture
 
 /**
- * Get posts by Ids
+ * Get posts by Ids or Users
  */
 class PostsQuery : Query {
     @GraphQLDescription("Get posts by ids or users")
-    fun getPostsByIds(postSearchParams: PostSearchParams, dfe: DataFetchingEnvironment): CompletableFuture<List<Post>> =
+    fun getPostsByIds(params: PostSearchParams, dfe: DataFetchingEnvironment): CompletableFuture<List<Post>> =
         when {
-            postSearchParams.ids.isNotEmpty() -> dfe.getValuesFromDataLoader("POST_LOADER_BY_IDS", postSearchParams.ids)
+            params.ids.isNotEmpty() -> dfe.getValuesFromDataLoader("POST_LOADER_BY_IDS", params.ids)
 
-            postSearchParams.userIds.isNotEmpty() -> dfe.getValuesFromDataLoader("POST_LOADER_BY_USER_ID", postSearchParams.userIds)
+            params.userIds.isNotEmpty() -> dfe.getValuesFromDataLoader("POST_LOADER_BY_USER_ID", params.userIds)
 
             else -> CompletableFuture.completedFuture(emptyList())
         }
