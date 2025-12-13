@@ -13,23 +13,24 @@ import org.dataloader.DataLoader
 import org.dataloader.DataLoaderFactory
 import kotlin.coroutines.EmptyCoroutineContext
 
-val CommentsDataLoaderByUserIds = object : KotlinDataLoader<Int, List<Comment>> {
+val CommentsDataLoaderByIds = object : KotlinDataLoader<Int, Comment?> {
     val commentsClient = CommentsClient()
 
-    override val dataLoaderName: String = "COMMENTS_LOADER_BY_USER_IDS"
+    override val dataLoaderName: String = "COMMENTS_LOADER_BY_IDS"
 
-    override fun getDataLoader(graphQLContext: GraphQLContext): DataLoader<Int, List<Comment>> {
-        return DataLoaderFactory.newDataLoader { userIds, batchLoaderEnvironment ->
+    override fun getDataLoader(graphQLContext: GraphQLContext): DataLoader<Int, Comment?> {
+        return DataLoaderFactory.newDataLoader { ids, batchLoaderEnvironment ->
             val coroutineScope = batchLoaderEnvironment.getContext<GraphQLContext>()?.get<CoroutineScope>()
                 ?: CoroutineScope(EmptyCoroutineContext)
 
-            val requests = buildList { userIds.forEach { id ->
-                    add(coroutineScope.async { commentsClient.getComments(id) })
+            val requests = buildList {
+                ids.forEach { id ->
+                    add(coroutineScope.async { commentsClient.getComment(id) })
                 }
             }
 
             coroutineScope.future { requests.awaitAll() }
         }
     }
-
 }
+

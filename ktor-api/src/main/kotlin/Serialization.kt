@@ -1,22 +1,16 @@
 package com.eventslooped
 
-import com.fasterxml.jackson.databind.*
-import io.ktor.serialization.jackson.*
 import io.ktor.server.application.*
-import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.plugins.defaultheaders.*
+import io.ktor.http.ContentType
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Application.configureSerialization() {
-    install(ContentNegotiation) {
-        jackson {
-            enable(SerializationFeature.INDENT_OUTPUT)
-        }
-    }
     routing {
         get("/json/jackson") {
-            call.respond(mapOf("hello" to "world"))
+            // Keep this endpoint working without installing ContentNegotiation globally.
+            // GraphQL routes install their own JSON (ContentNegotiation) configuration.
+            call.respondText("""{"hello":"world"}""", ContentType.Application.Json)
         }
     }
 }

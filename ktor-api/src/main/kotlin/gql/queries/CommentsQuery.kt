@@ -15,6 +15,7 @@ class CommentsQuery : Query {
     fun getCommentsByIds(params: CommentsSearchParams, dfe: DataFetchingEnvironment): CompletableFuture<List<Comment>> =
         when {
             params.ids.isNotEmpty() -> dfe.getValuesFromDataLoader("COMMENTS_LOADER_BY_IDS", params.ids)
+
             else -> CompletableFuture.completedFuture(emptyList())
         }
 

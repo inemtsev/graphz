@@ -9,6 +9,8 @@ import io.ktor.client.request.get
 
 class CommentsClient {
     suspend fun getComments(id: Int) = client.get("/comments?postId=$id").body<List<Comment>>()
+    
+    suspend fun getComment(id: Int) = client.get("/comments/$id").body<Comment>()
 
     companion object {
         val client = HttpClient(OkHttp) {
